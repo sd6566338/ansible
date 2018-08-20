@@ -1,10 +1,10 @@
 - name: create user
-  hosts: "{{ hosts }}"
+  hosts: "{{ hostslist }}"
 #  hosts: "all"
   user: root
   gather_facts: false
   vars:
-  - user: "playbookuser668"
+  - user: "playbookuser662"
   tasks:
   - name: create  user
     user: name="{{ user }}"

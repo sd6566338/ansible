@@ -90,7 +90,6 @@ def playbookAPI(request):
         output = rbt.get_playbook_result()
         print output
 
-        # print init_jobs
         # now = datetime.datetime.now()
         return HttpResponse('output')
     # return render(request, 'AnsibleAPI.html',{'output': output})
