@@ -1,0 +1,7 @@
+{% for i in list_res %}
+object Host "M2-{{ i.cabinet_list }}{{ i.cabinet_number }}-{{ i.cabinet_begin }}U-{{ i.sn }}" {
+	import "generic-host"
+	address = "{{ i.manager_ip }}"
+	vars.type = "m2-{{ i.cabinet_list }}-hp"
+	vars.type2 = "hp"
+}{% endfor %}

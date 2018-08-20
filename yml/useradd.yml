@@ -1,0 +1,15 @@
+- name: create user
+  hosts: "{{ hosts }}"
+#  hosts: "all"
+  user: root
+  gather_facts: false
+  vars:
+  - user: "playbookuser668"
+  tasks:
+  - name: create  user
+    user: name="{{ user }}"
+
+
+####
+##ansible-playbook -i /etc/ansible/hosts useradd.yml  -e "hosts='172.16.186.129'"
+####

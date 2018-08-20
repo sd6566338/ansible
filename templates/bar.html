@@ -1,0 +1,85 @@
+{{list}},{{sum}}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts</title>
+<!-- 引入 echarts.js -->
+<script src="/static/js/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+// 基于准备好的dom，初始化echarts实例
+var myChart = echarts.init(document.getElementById('main'));
+var list = {{ list|safe }};
+
+// 指定图表的配置项和数据
+option = {
+    title: {
+        text: '云基地Mod2机房服务器分布（台）',
+        subtext: 'From ExcelHome',
+        sublink: 'http://e.weibo.com/1341556070/AjQH99che'
+    },
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        },
+        formatter: function (params) {
+            var tar = params[0];
+            return tar.name + '<br/>' + tar.seriesName + ' : ' + tar.value;
+        }
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    xAxis : [
+        {
+            type : 'category',
+            splitLine: {show:false},
+            data : ['A列','B列','C列','D列','E列','F列','Mod2机房']
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'数量',
+            type:'bar',
+            stack: '总量',
+            itemStyle:{
+                normal:{
+                    barBorderColor:'rgba(0,0,0,0)',
+                    color:'rgba(0,0,0,0)'
+                },
+                emphasis:{
+                    barBorderColor:'rgba(0,0,0,0)',
+                    color:'rgba(0,0,0,0)'
+                }
+            },
+            data: {{list}}
+        },
+        {
+            name:'数量',
+            type:'bar',
+            stack: '总量',
+            itemStyle : { normal: {label : {show: true, position: 'inside'}}},
+            data: {{list}}
+        }
+    ]
+};
+myChart.setOption(option);
+</script>
+</body>
+</html>
+

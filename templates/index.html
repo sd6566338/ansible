@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+==============================工单数量===================================
+{% for ticket in ticket_list %}
+   {% for k,v in ticket.items %}
+   <br> {{v}} </br>
+   {% endfor %}
+{% endfor %}
+
+==============================涉及设备数量===============================
+{% for number in server_sum %}
+    {% for x,y in number.items %}
+        <br> {{y}} </br>
+    {% endfor %}
+{% endfor %}
+</html>
