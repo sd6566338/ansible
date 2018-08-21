@@ -52,46 +52,49 @@ def Post_test(request):
 @csrf_exempt
 def RunmodAPI(request):
     if request.method == "POST":
-        result = {}
         request = request.body
-        print 'request  ==========>  '+request
+        # print 'request  ==========>  '+request
         init_request = json.loads(request)
         ip_list=[]
-
         rbt = ANSRunner(init_request["hosts"])
         for host in init_request["hosts"]:
-            print json.dumps(host)
             for k,v in host.items():
-                print 'ip  ============>  '+v
                 ip_list.append(v)
         rbt.run_model(host_list=ip_list, module_name=init_request["module_name"], module_args=init_request["module_args"])
-        # rbt.run_model(host_list=[], module_name='yum', module_args="name=htop state=present")
-        output = rbt.get_model_result()
-        output = json.dumps(output)
-        print 'output  ==========>  '+output
-
-        # print init_jobs
-
+        Runmod_Output = rbt.get_model_result()
+        print type(Runmod_Output)
+        Runmod_Output = json.dumps(Runmod_Output)
+        # print 'Runmod_Output  ==========>  '+Runmod_Output
         # now = datetime.datetime.now()
-        return HttpResponse(output)
-    # return render(request, 'AnsibleAPI.html',{'output': output})
+        return HttpResponse(Runmod_Output)
+        # return render(request, 'AnsibleAPI.html')
 
 @csrf_exempt
 def playbookAPI(request):
     if request.method == "POST":
-
+#'''request =   {"module_name":"shell","hosts":[{"hostname":"172.16.186.130"},{"hostname":"group1"}],"module_args":"touch /tmp/qianshiwangbadan! ","extra_vars":{"hostslist":"all","ansible_ssh_user":"root"}}'''
         request = request.body
-        print 'request  ==========>  '+request
         dict_request = json.loads(request)
-        extra_vars = dict_request[u'extra_vars'][0]
-        print type(extra_vars)
+        extra_vars = dict_request['extra_vars']
         rbt = ANSRunner(resource='all')
         rbt.run_playbook(playbook_path='/Users/vct/opt/ansible/yml/useradd.yml',extra_vars=extra_vars)
-        output = rbt.get_playbook_result()
-        print output
+        Playbook_Output = rbt.get_playbook_result()
+        Playbook_Output.pop('ok')
+        Json_Playbook_Output = json.dumps(Playbook_Output)
+        # print Json_Playbook_Output
+        return HttpResponse(Json_Playbook_Output)
+    # return render(request, 'AnsibleAPI.html')
 
+
+# [{"hostslist":"all"}]
+# ''' get values()
+# In [39]: for i in extra_vars:
+#     ...:     if "hostslist" in i.keys():
+#     ...:         x = i
+#     ...:         break
+#     ...: print x
+# '''
         # now = datetime.datetime.now()
-        return HttpResponse('output')
     # return render(request, 'AnsibleAPI.html',{'output': output})
 
 ###

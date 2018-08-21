@@ -264,19 +264,19 @@ class ANSRunner(object):
             self.results_raw['ok'][host] = result
 
         for host, result in self.callback.task_failed.items():
-            self.results_raw['failed'][host] = result
+            self.results_raw['failed'][host] = result._result
 
         for host, result in self.callback.task_status.items():
-            self.results_raw['status'][host] = result
+            self.results_raw['status'][host] = result._result
 
         # for host, result in self.callback.task_changed.items():
         #     self.results_raw['changed'][host] = result
 
         for host, result in self.callback.task_skipped.items():
-            self.results_raw['skipped'][host] = result
+            self.results_raw['skipped'][host] = result._result
 
         for host, result in self.callback.task_unreachable.items():
-            self.results_raw['unreachable'][host] = result
+            self.results_raw['unreachable'][host] = result._result
         return self.results_raw
 
 

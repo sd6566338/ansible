@@ -4,7 +4,7 @@
   user: root
   gather_facts: false
   vars:
-  - user: "playbookuser662"
+  - user: "playbookuser6205"
   tasks:
   - name: create  user
     user: name="{{ user }}"
