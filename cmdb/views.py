@@ -31,15 +31,14 @@ import django_filters.rest_framework
 from django_filters.rest_framework import DjangoFilterBackend
 ###
 from cmdb.ansible_api import ANSRunner
-from .forms import AddForm
+from .forms import AnsibleForm
 
 @csrf_exempt
 def form(request):
     if request.method == 'POST':
-        form = AddForm(request.POST)
-        ip_list=[]
+        form = AnsibleForm(request.POST)
+        print form
         if form.is_valid():
-            print form
             ip_list = []
             model_name = form.cleaned_data['model_name'].encode("utf-8")
             command = form.cleaned_data['command'].encode("utf-8")
@@ -57,9 +56,9 @@ def form(request):
             # print 'Runmod_Output  ==========>  '+Runmod_Output
             # now = datetime.datetime.now()
             return render(request, 'cmdb/Runmod_output_result.html', {'Runmod_output_json': Runmod_output_json})
-            # return HttpResponse('ok')
+        # return HttpResponse('ok')
     else:
-        form = AddForm()
+        form = AnsibleForm()
         return render(request, 'cmdb/form_ansible.html', {'form': form})
 
 def Servers(request):

@@ -19,7 +19,9 @@ class GetsnForm(forms.Form):
 #    ipaddf = forms.GenericIPAddressField(label='Ip')
 #    url = forms.URLField(label='Your Web site', required=False)
 #    comment = forms.CharField()
-class AddForm(forms.Form):
-    model_name = forms.CharField()
+class AnsibleForm(forms.Form):
+    model_name = forms.ChoiceField(
+        choices=[("shell","shell"),("shell","shell"),("shell","shell")]
+    )
     command = forms.CharField()
     Host_List = forms.CharField(widget=forms.Textarea)
