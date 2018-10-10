@@ -10,11 +10,11 @@ from django.shortcuts import render,render_to_response
 # from cmdb.models import Server
 # from cmdb.serializers import SnippetSerializer
 ###################
-# from rest_framework import status
-# from rest_framework.decorators import api_view
-# from rest_framework.response import Response
-# from cmdb.models import Server
-# from cmdb.serializers import SnippetSerializer
+from cmdb.serializers import ServerSerializer
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from cmdb.models import Server
 ##################
 # from cmdb.models import Server
 # from cmdb.serializers import SnippetSerializer
@@ -25,14 +25,51 @@ from django.shortcuts import render,render_to_response
 # from django.contrib.auth.models import User
 from rest_framework import mixins
 from cmdb.models import Server,Ticket
-from cmdb.serializers import ServerSerializer,TicketSerializer
 from rest_framework import generics
 from rest_framework import viewsets
 import django_filters.rest_framework
 from django_filters.rest_framework import DjangoFilterBackend
 ###
 from cmdb.ansible_api import ANSRunner
+from .forms import AddForm
 
+@csrf_exempt
+def form(request):
+    if request.method == 'POST':
+        form = AddForm(request.POST)
+        ip_list=[]
+        if form.is_valid():
+            print form
+            ip_list = []
+            model_name = form.cleaned_data['model_name'].encode("utf-8")
+            command = form.cleaned_data['command'].encode("utf-8")
+            Host_List = form.cleaned_data['Host_List']
+            for i in  Host_List.split('\r\n'):
+                ip_list.append(i)
+            rbt = ANSRunner('[{"hostname":"172.16.186.130"},{"hostname":"172.16.186.129"}]')
+            print ip_list
+            rbt.run_model(host_list=ip_list, module_name=model_name,module_args=command)
+            Runmod_Output = rbt.get_model_result()
+            # Runmod_Output = json.dumps(Runmod_Output, content_type='application/json')
+            Runmod_output_json = json.dumps(Runmod_Output)
+
+            print Runmod_Output
+            # print 'Runmod_Output  ==========>  '+Runmod_Output
+            # now = datetime.datetime.now()
+            return render(request, 'cmdb/Runmod_output_result.html', {'Runmod_output_json': Runmod_output_json})
+            # return HttpResponse('ok')
+    else:
+        form = AddForm()
+        return render(request, 'cmdb/form_ansible.html', {'form': form})
+
+def Servers(request):
+
+    return render(request, 'cmdb/Servers.html')
+
+def dataget(request):
+    list_chose = request.GET.get('list')
+    print list_chose
+    return render(request, 'cmdb/Servers.html', {'list_chose':list_chose})
 
 @csrf_exempt
 def Post_test(request):
@@ -60,10 +97,11 @@ def RunmodAPI(request):
         for host in init_request["hosts"]:
             for k,v in host.items():
                 ip_list.append(v)
+        print ip_list
         rbt.run_model(host_list=ip_list, module_name=init_request["module_name"], module_args=init_request["module_args"])
         Runmod_Output = rbt.get_model_result()
         print type(Runmod_Output)
-        Runmod_Output = json.dumps(Runmod_Output)
+        Runmod_Output = json.dumps(Runmod_Output, content_type = 'application/json')
         # print 'Runmod_Output  ==========>  '+Runmod_Output
         # now = datetime.datetime.now()
         return HttpResponse(Runmod_Output)
@@ -82,18 +120,11 @@ def playbookAPI(request):
         Playbook_Output.pop('ok')
         Json_Playbook_Output = json.dumps(Playbook_Output)
         # print Json_Playbook_Output
-        return HttpResponse(Json_Playbook_Output)
+        return HttpResponse(Json_Playbook_Output, content_type = 'application/json')
     # return render(request, 'AnsibleAPI.html')
 
 
-# [{"hostslist":"all"}]
-# ''' get values()
-# In [39]: for i in extra_vars:
-#     ...:     if "hostslist" in i.keys():
-#     ...:         x = i
-#     ...:         break
-#     ...: print x
-# '''
+
         # now = datetime.datetime.now()
     # return render(request, 'AnsibleAPI.html',{'output': output})
 
@@ -244,44 +275,49 @@ class ServerDetail(generics.RetrieveUpdateDestroyAPIView):
 #     elif request.method == 'DELETE':
 #         cmdb.delete()
 #         return HttpResponse(status=204)
-# @api_view(['GET', 'POST'])
-# def server_list(request,format=None):
-#     # """
-#     # 列出所有的代码片段（snippets），或者创建一个代码片段（snippet）
-#     # """
-#     if request.method == 'GET':
-#         servers = Server.objects.all()
-#         serializer = SnippetSerializer(servers, many=True)
-#         return Response(serializer.data)
-#
-#     elif request.method == 'POST':
-#         serializer = SnippetSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def server_detail(request, pk,format=None):
-#     # """
-#     # 读取, 更新 或 删除 一个代码片段实例（snippet instance）。
-#     # """
-#     try:
-#         server = Server.objects.get(sn=pk)
-#     except Server.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#
-#     if request.method == 'GET':
-#         serializer = SnippetSerializer(server)
-#         return Response(serializer.data)
-#
-#     elif request.method == 'PUT':
-#         serializer = SnippetSerializer(server, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#     elif request.method == 'DELETE':
-#         server.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+@api_view(['GET', 'POST'])
+def server_list(request,format=None):
+    # """
+    # 列出所有的代码片段（snippets），或者创建一个代码片段（snippet）
+    # """
+    if request.method == 'GET':
+        list_chose = request.GET.get('list')
+
+        if list_chose == None or list_chose == 'None':
+            servers = Server.objects.all()
+        else:
+            servers = Server.objects.filter(cabinet_list = list_chose)
+        serializer = ServerSerializer(servers, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ServerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def server_detail(request, pk,format=None):
+    # """
+    # 读取, 更新 或 删除 一个代码片段实例（snippet instance）。
+    # """
+    try:
+        server = Server.objects.get(sn=pk)
+    except Server.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ServerSerializer(server)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = ServerSerializer(server, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        server.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

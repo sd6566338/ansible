@@ -76,7 +76,7 @@ class MyInventory():
             # add to group
 
             self.inventory.add_host(host=hostname,group=groupname,port=hostport)
-            ghost = Host(name="192.168.8.119")
+            # ghost = Host(name="192.168.8.119")
 
 
     def dynamic_inventory(self):
@@ -207,7 +207,7 @@ class ANSRunner(object):
                     variable_manager=self.variable_manager,
                     loader=self.loader,
                     options=self.options,
-                    passwords=self.passwords,
+                    di  =self.passwords,
                     stdout_callback = "minimal",
             )
             tqm._stdout_callback = self.callback

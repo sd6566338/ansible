@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'cmdb',
     'daterange_filter',
     'rest_framework',
+    'corsheaders',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,7 +52,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 )
+CORS_ORIGIN_ALLOW_ALL=True
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -107,6 +110,13 @@ DATABASES = {
     }
 }
 
+CORS_ORIGIN_WHITELIST = (
+
+    'google.com',
+    'hostname.example.com',
+    'localhost:8000',
+    '127.0.0.1:9000'
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

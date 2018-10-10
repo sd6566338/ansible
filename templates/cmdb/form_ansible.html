@@ -1,0 +1,17 @@
+{% extends 'cmdb/base.html' %}
+{% block select %}
+{% endblock %}
+{% block table %}
+<form method='post' class="form-horizontal">
+    <div id="legend" class="">
+    <legend class="">表单名</legend>
+    </div>
+    <div class="control-group">
+    {% csrf_token %}
+    {{ form }}
+    </div>
+    <div class="controls">
+    <button type="button" class="btn btn-primary" data-loading-text="Loading...">执行</button>
+    </div>
+</form>
+{% endblock %}

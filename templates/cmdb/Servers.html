@@ -1,0 +1,123 @@
+{#{% extends 'cmdb/base.html' %}#}
+
+{% include 'cmdb/base.html' %}
+
+
+<script >
+$('#table').bootstrapTable({
+    url: 'http://127.0.0.1:8000/cmdb/server_list/',
+    height: $(window).height() - 110,
+    width:$(window).width(),
+    method: 'get',
+    toolbar: '#toolbar',
+    sortable: true,
+    striped: true,
+    sortOrder: "asc",
+    pagination: true,
+    showRefresh: true,
+    pageNumber: 1,
+    pageSize: 20,
+    pageList: [20, 30, 50, 100],
+    search: true,
+    contentType: "application/x-www-form-urlencoded",
+    showColumns: true,
+    showToggle: true,
+    height: 800,
+    clickToSelect: true,
+    strictSearch: true,
+    minimumCountColumns: 2,
+    uniqueId: "no",
+    columns: [
+    {
+        checkbox: true
+    },
+    {
+        field: '',
+        width: 50,
+        title: 'Sort No.',
+        formatter: function (value, row, index) {
+        return index+1;
+         }
+    },
+    {
+        field: 'sn',
+        title: 'sn',
+        sortable:true,
+        align: "left",
+        halign: "left",
+
+        formatter: function (value) {
+            return "<span class='badge bg-yellow'  style='padding:5px 10px;'>" + value + "</span>";
+       }
+    },
+    {
+        field: 'manager_ip',
+        title: 'manager_ip',
+        align: "left",
+        halign: "left",
+
+    },
+    {
+        field: 'cabinet_list',
+        title: 'cabinet_list',
+        sortable:true,
+        align : 'left',
+        valign : 'left',
+    },
+    {
+        field: 'cabinet_number',
+        title: 'cabinet_number',
+        sortable:true,
+        align : 'left',
+        valign : 'left',
+    },
+    {
+        field: 'cabinet_begin',
+        title: 'cabinet_begin',
+        sortable:true,
+        align : 'center',
+        valign : 'middle',
+    },
+    {
+        field: 'owner',
+        title: 'owner',
+        sortable:true,
+    },
+    {
+        field: 'department',
+        title: 'department',
+        sortable:true,
+    },
+    {
+        field: 'business',
+        title: 'business',
+        sortable:true,
+    },
+    {
+        field: 'ip',
+        title: 'ip',
+        sortable:true,
+    },
+   ]
+});
+</script>
+<script>
+    function AjaxSubmit(){
+        var cabinet_listWord = $('#selecteId').val();
+		console.log(cabinet_listWord);
+        $.ajax({
+            url: 'http://127.0.0.1:8000/dataget/?list='+cabinet_listWord,
+            type:'get',
+            dataType: "html",
+
+            // data:{data:cabinet_listWord},
+            success: function (arg) {
+                console.log(arg);
+				$("#targetDom").html(arg);
+                // var html = arg;
+                // $("#targetDom").html(html);
+
+            }
+        });
+    }
+</script>

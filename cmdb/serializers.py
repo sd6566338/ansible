@@ -5,23 +5,23 @@ from django.contrib.auth.models import User
 
 
 
-class ServerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Server
-        fields = "__all__"
-
-class TicketSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ticket
-        fields = "__all__"
-
-
-# class SnippetSerializer(serializers.HyperlinkedModelSerializer):
-#     owner = serializers.ReadOnlyField(source='owner.username')
-#
+# class ServerSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Server
-#         fields = ('sn','manager_ip','hostname','check','ip','owner','remarks')
+#         fields = "__all__"
+#
+# class TicketSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Ticket
+#         fields = "__all__"
+
+
+class ServerSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
+    class Meta:
+        model = Server
+        fields = ('id','ip','manager_ip','owner','sn','cabinet_list','cabinet_number','cabinet_begin','department','business')
 
 
 # class UserSerializer(serializers.HyperlinkedModelSerializer):

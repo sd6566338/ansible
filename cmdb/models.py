@@ -14,6 +14,15 @@ import datetime
 
 # Create your models here.
 
+class Calendar(models.Model):
+    datelist = models.DateField(u'日期')
+    duty_day = models.CharField(u'白班',max_length = 20, blank=True, null=True)
+    duty_night = models.CharField(u'夜班',max_length = 20, blank=True, null=True)
+    class Meta:
+        verbose_name = 'datelist'
+        verbose_name_plural = 'datelist'
+    def __unicode__(self):
+        return self.datelist
 
 class Blogs(models.Model):
     reports = (

@@ -16,39 +16,22 @@ Including another URLconf
 from django.conf.urls import  url, include
 from django.contrib import admin
 from rest_framework.urlpatterns import format_suffix_patterns
-# from cmdb.views import statement, List_all,Get_sn,server_list##Django1.10
-from . import views
+# from . import views
+from views import server_detail,server_list,form,Servers,RunmodAPI
 
 
 
 urlpatterns = [
-    # url(r'^getsn/$', Get_sn, name='Get_sn' ),
-    # url(r'^statement/$', statement, name='statement'), ##Django1.10
-    # url(r'^sn/$', List_all, name='List_all'), ##Django1.10
-    # url(r'server_list/$', server_list, name='server_list'), ##Django1.10
-    url(r'^snippets/$', views.ServerList.as_view()),
-    url(r'^snippets/(?P<pk>.+)/$', views.ServerDetail.as_view()),
-    url('^remark/(?P<cmdb_remark>.+)/$', views.RemarkList.as_view()),
-    url(r'^post/$', views.Post_test,name='Post_test'),
-    url(r'^runmod/$', views.RunmodAPI, name='RunmodAPI'),
-    url(r'^playbook/$', views.playbookAPI, name='playbookAPI'),
+    url(r'server_list/$', server_list, name='server_list'),
+    url(r'server_detail/$', server_detail, name='server_detail'),
+    url(r'servers/$', Servers, name='Servers'),
+    url(r'form/$', form, name='form'),
 
-    # url(r'^$', views.api_root),
-    # url(r'^snippets/$',
-    #     views.ServerList.as_view(),
-    #     name='server-list'),
-    # url(r'^snippets/(?P<pk>[0-9]+)/$',
-    #     views.ServerDetail.as_view(),
-    #     name='server-detail')
-    # url(r'^snippets/(?P<pk>[0-9]+)/highlight/$',
-    #     views.SnippetHighlight.as_view(),
-    #     name='snippet-highlight'),
-    # url(r'^users/$',
-    #     views.UserList.as_view(),
-    #     name='user-list'),
-    # url(r'^users/(?P<pk>[0-9]+)/$',
-    #     views.UserDetail.as_view(),
-    #     name='user-detail')
+    # url(r'^snippets/$', views.ServerList.as_view()),
+    # url(r'^snippets/(?P<pk>.+)/$', views.ServerDetail.as_view()),
+    # url(r'^post/$', views.Post_test,name='Post_test'),
+    url(r'^runmod/$', RunmodAPI, name='RunmodAPI'),
+    # url(r'^playbook/$', views.playbookAPI, name='playbookAPI'),
 ]
 
 

@@ -1,0 +1,18 @@
+{% extends 'cmdb/base.html' %}
+{% block select %}
+{% endblock %}
+
+{% block table %}
+<form method='post' class="form-horizontal">
+    <div id="legend" class="">
+    <legend class="">表单名</legend>
+    </div>
+    <div class="control-group">
+    {% csrf_token %}
+    {{ Runmod_output_json }}
+    </div>
+    <div class="controls">
+    <button class="btn btn-success">Button</button>
+    </div>
+</form>
+{% endblock %}

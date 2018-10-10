@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<HTML lang="zh-CN">
+<HEAD>
+{% include 'cmdb/head.html' %}
+  <TITLE>
+      {% block title %}
+      Dashboard Template for Bootstrap
+      {% endblock %}
+  </TITLE>
+{% include 'cmdb/css.html' %}
+<META name="GENERATOR" content="MSHTML 11.00.10570.1001">
+</HEAD>
+
+<BODY>
+{% include 'cmdb/nav_top.html' %}
+<div class="container-fluid">
+	<H4>Label</H4><SPAN class="text-muted">Something else</SPAN>
+{% block select %}
+    <form class="form-inline definewidth m20" action="" method="get">
+       <div  style="float: right;" class="form-group">
+            <label for="name">所在机柜列</label>
+            <select  name="sysCode" id="selecteId" onchange="AjaxSubmit();"  class="form-control">
+                <option >请选择</option>
+                <option value="A">A列</option>
+                <option value="B">B列</option>
+                <option value="C">C列</option>
+                <option value="D">D列</option>
+                <option value="E">E列</option>
+                <option value="F">F列</option>
+            </select>
+        </div>
+    </form>
+{% endblock %}
+  <div   class="row-fluid">
+    <div class="span2">
+	  <UL class="nav nav-sidebar">
+	    <LI class="active"><A href="http://v3.bootcss.com/examples/dashboard/#">Overview <SPAN class="sr-only">(current)</SPAN></A></LI>
+	    <LI><A href="http://v3.bootcss.com/examples/dashboard/#">Reports</A></LI>
+	    <LI><A href="http://v3.bootcss.com/examples/dashboard/#">Analytics</A></LI>
+	    <LI><A href="http://v3.bootcss.com/examples/dashboard/#">Export</A></LI> </UL>
+    </div>
+    <div id="targetDom" class="span10">
+        {% block table %}
+            <table id="table" ></table>
+        {% endblock %}
+	</div>
+  </div>
+
+</BODY>
+</HTML>
+{% include 'cmdb/js.html' %}

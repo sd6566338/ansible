@@ -8,9 +8,6 @@ class StatementForm(forms.Form):
     today = datetime.date.today()
     start_time = forms.DateTimeField(initial=today-datetime.timedelta(days=6),label='begin')
     end_time = forms.DateTimeField(initial=today+datetime.timedelta(days=1),label='end')
-
-
-
 #    b = forms.Integer()
 #    cmd = forms.EmailField()
 #    ipa = forms.GenericIPAddressField()
@@ -22,3 +19,7 @@ class GetsnForm(forms.Form):
 #    ipaddf = forms.GenericIPAddressField(label='Ip')
 #    url = forms.URLField(label='Your Web site', required=False)
 #    comment = forms.CharField()
+class AddForm(forms.Form):
+    model_name = forms.CharField()
+    command = forms.CharField()
+    Host_List = forms.CharField(widget=forms.Textarea)
