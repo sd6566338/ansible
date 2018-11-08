@@ -4,7 +4,6 @@ from django.views.decorators.csrf import csrf_exempt
 import datetime
 import json
 from django.shortcuts import render,render_to_response
-
 # from rest_framework.renderers import JSONRenderer
 # from rest_framework.parsers import JSONParser
 # from cmdb.models import Server
@@ -33,6 +32,21 @@ from django_filters.rest_framework import DjangoFilterBackend
 from cmdb.ansible_api import ANSRunner
 from .forms import AnsibleForm
 
+##########test area##########
+@csrf_exempt
+def home(request):
+    ret = {'status': True,'error': ""}
+    try:
+        print request.POST
+    except Exception, e:
+        ret['status'] = False
+        ret['error'] = str(e)
+    j_ret = json.dumps(ret)
+    print j_ret
+    return HttpResponse(j_ret)
+    # return render(request,'home.html')
+
+##########begin##########
 @csrf_exempt
 def form(request):
     if request.method == 'POST':
@@ -67,8 +81,8 @@ def Servers(request):
 
 def dataget(request):
     list_chose = request.GET.get('list')
-    print list_chose
-    return render(request, 'cmdb/Servers.html', {'list_chose':list_chose})
+    print 'dataget='+str(list_chose)
+    return render(request, 'cmdb/Servers.html', {'list_chose': list_chose})
 
 @csrf_exempt
 def Post_test(request):
@@ -281,7 +295,6 @@ def server_list(request,format=None):
     # """
     if request.method == 'GET':
         list_chose = request.GET.get('list')
-
         if list_chose == None or list_chose == 'None':
             servers = Server.objects.all()
         else:

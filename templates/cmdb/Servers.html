@@ -1,11 +1,10 @@
 {#{% extends 'cmdb/base.html' %}#}
-
 {% include 'cmdb/base.html' %}
 
 
 <script >
 $('#table').bootstrapTable({
-    url: 'http://127.0.0.1:8000/cmdb/server_list/',
+    url: 'http://127.0.0.1:8000/cmdb/server_list/?list={{ list_chose }}',
     height: $(window).height() - 110,
     width:$(window).width(),
     method: 'get',
@@ -101,6 +100,7 @@ $('#table').bootstrapTable({
    ]
 });
 </script>
+
 <script>
     function AjaxSubmit(){
         var cabinet_listWord = $('#selecteId').val();
@@ -112,7 +112,7 @@ $('#table').bootstrapTable({
 
             // data:{data:cabinet_listWord},
             success: function (arg) {
-                console.log(arg);
+{#                console.log(arg);#}
 				$("#targetDom").html(arg);
                 // var html = arg;
                 // $("#targetDom").html(html);

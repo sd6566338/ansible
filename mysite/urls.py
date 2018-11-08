@@ -16,14 +16,14 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 #from cmdb import views as cmdb_views ##Django1.8
-from cmdb.views import dataget
+from cmdb.views import dataget,home
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cmdb/', include('cmdb.urls')),
     url(r'dataget/', dataget, name='dataget'),
+    url(r'^$', home, name='home'),
 
-    #    url(r'^$', cmdb_views.home, name='home'),
 #    url(r'map/', cmdb_views.map, name='map'),
 ]

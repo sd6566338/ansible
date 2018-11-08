@@ -11,7 +11,7 @@
 <META name="GENERATOR" content="MSHTML 11.00.10570.1001">
 </HEAD>
 
-<BODY>
+<BODY id="targetDom">
 {% include 'cmdb/nav_top.html' %}
 <div class="container-fluid">
 	<H4>Label</H4><SPAN class="text-muted">Something else</SPAN>
@@ -20,7 +20,7 @@
        <div  style="float: right;" class="form-group">
             <label for="name">所在机柜列</label>
             <select  name="sysCode" id="selecteId" onchange="AjaxSubmit();"  class="form-control">
-                <option >请选择</option>
+                <option >{{ list_chose }}列</option>
                 <option value="A">A列</option>
                 <option value="B">B列</option>
                 <option value="C">C列</option>
@@ -39,7 +39,7 @@
 	    <LI><A href="http://v3.bootcss.com/examples/dashboard/#">Analytics</A></LI>
 	    <LI><A href="http://v3.bootcss.com/examples/dashboard/#">Export</A></LI> </UL>
     </div>
-    <div id="targetDom" class="span10">
+    <div  class="span10">
         {% block table %}
             <table id="table" ></table>
         {% endblock %}
