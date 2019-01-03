@@ -123,12 +123,21 @@ def RunmodAPI(request):
 @csrf_exempt
 def playbookAPI(request):
     if request.method == "POST":
-#'''request =   {"module_name":"shell","hosts":[{"hostname":"172.16.186.130"},{"hostname":"group1"}],"module_args":"touch /tmp/qianshiwangbadan! ","extra_vars":{"hostslist":"all","ansible_ssh_user":"root"}}'''
+#request = post:{"hosts":[{"hostname":"172.16.186.130"},{"hostname":"172.16.186.129"}],"extra_vars":{"excute_hosts":"all","ansible_ssh_user":"root","playbook":"useradd.yml"}}
+
         request = request.body
         dict_request = json.loads(request)
         extra_vars = dict_request['extra_vars']
-        rbt = ANSRunner(resource='all')
-        rbt.run_playbook(playbook_path='/Users/vct/opt/ansible/yml/useradd.yml',extra_vars=extra_vars)
+####单独取变量####
+        hosts = dict_request['hosts']
+        playbook = extra_vars['playbook']
+        excute_hosts = []  ##新建一个空的被执行主机列表：excute_hosts
+        for i in hosts:    ##将host抽取出来加入执行列表：excute_hosts
+            excute_hosts.append(i['hostname'])
+        extra_vars['excute_hosts']=excute_hosts ##将写好的执行主机列表加入ansible扩展变量：extra_vars
+
+        rbt = ANSRunner(resource=hosts)
+        rbt.run_playbook(playbook_path='/Users/vct/opt/ansible/yml/'+playbook,extra_vars=extra_vars)
         Playbook_Output = rbt.get_playbook_result()
         Playbook_Output.pop('ok')
         Json_Playbook_Output = json.dumps(Playbook_Output)

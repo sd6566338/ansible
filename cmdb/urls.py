@@ -17,7 +17,7 @@ from django.conf.urls import  url, include
 from django.contrib import admin
 from rest_framework.urlpatterns import format_suffix_patterns
 # from . import views
-from views import server_detail,server_list,form,Servers,RunmodAPI
+from views import server_detail,server_list,form,Servers,RunmodAPI,playbookAPI
 
 
 
@@ -31,7 +31,7 @@ urlpatterns = [
     # url(r'^snippets/(?P<pk>.+)/$', views.ServerDetail.as_view()),
     # url(r'^post/$', views.Post_test,name='Post_test'),
     url(r'^runmod/$', RunmodAPI, name='RunmodAPI'),
-    # url(r'^playbook/$', views.playbookAPI, name='playbookAPI'),
+    url(r'^playbook/$', playbookAPI, name='playbookAPI'),
 ]
 
 
