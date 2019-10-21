@@ -21,7 +21,7 @@ django-filter==1.1.0
 djangorestframework==3.8.2
 enum34==1.1.6
 futures==3.2.0
-httpie==0.9.9
+httpie==1.0.3
 idna==2.7
 ipaddress==1.0.22
 ipython==5.7.0
