@@ -26,7 +26,7 @@ idna==2.7
 ipaddress==1.0.22
 ipython==5.7.0
 ipython-genutils==0.2.0
-Jinja2==2.10
+Jinja2==2.11.3
 kombu==4.2.1
 macholib==1.5.1
 Markdown==2.6.11
