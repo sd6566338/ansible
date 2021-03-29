@@ -45,7 +45,7 @@ ptyprocess==0.6.0
 py2app==0.7.3
 pyasn1==0.4.4
 pycparser==2.18
-Pygments==2.2.0
+Pygments==2.7.4
 PyMySQL==0.9.2
 PyNaCl==1.2.1
 pyobjc-core==2.5.1
